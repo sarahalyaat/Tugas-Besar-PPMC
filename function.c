@@ -19,11 +19,10 @@ node* randomHead(node **text,int n){
 //Fungsi mencari value dari key pada text
 void searchValue(node **text, queue **key, int n){
 	node *currText = randomHead(text,n);
-	node *testText;
+	node *testText;									
 	node *currKey;
 	int found = 0;
-	while (found == 0){
-		printf("%s\n",currText->word);
+	while (found == 0){		
 		currKey = (*key)->front;
 		testText = currText;
 		while(currKey!=NULL){
