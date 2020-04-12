@@ -3,7 +3,7 @@
 #include<string.h>
 
 typedef struct node{
-	char *word;
+	char word[15];
 	struct node *next;
 } node;
 
@@ -18,9 +18,10 @@ void searchValue(node **text, queue **key){
 	node *currKey;
 	int found = 0;
 	while (found == 0){
+		printf("%s\n",currText->word);
 		currKey = (*key)->front;
-		while(!currKey){
-			testText = currText;
+		testText = currText;
+		while(currKey!=NULL){
 			if (strcmp(testText->word,currKey->word)!=0)
 				break;
 			currKey = currKey->next;
