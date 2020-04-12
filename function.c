@@ -2,14 +2,6 @@
 #include<stdlib.h>
 #include<string.h>
 
-typedef struct node{
-	char word[15];
-	struct node *next;
-} node;
-
-typedef struct queue{
-	node *front, *rear;
-} queue;
 
 //Test
 node* randomHead(node **text,int n){
