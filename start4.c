@@ -26,6 +26,19 @@ typedef struct queue{
  node *front, *rear;
 } queue;
 
+void freeList(struct node* head)
+{
+   struct node* temp;
+
+   while (head != NULL)
+    {
+       temp = head;
+       head = head->next;
+       free(temp);
+    }
+
+}
+
 void aboutUs(){
     //Prosedur untuk menampilkan judul program dan credits
     puts("");
@@ -251,11 +264,10 @@ void generateText(node *text, int textLength, int word_count, int n_grams){
 	printf("... ");
 	for (i = 0; i < word_count; ++i){
 		searchValue(&text, &key, textLength);
-		printf("ok");
 	}
 	printf("... \n");
 	
-	free(key);
+	freeList(key->front);
 }
 
 int menux(){
@@ -269,73 +281,56 @@ int menux(){
 	return(output);
 	}
 
-void freeList(struct node* head)
-{
-   struct node* tmp;
 
-   while (head != NULL)
-    {
-       tmp = head;
-       head = head->next;
-       free(tmp);
-    }
-
-}
 
 int main(){
 	srand(time(0));
-	
-	node* linkedList = (node*)malloc(sizeof(char));
-	linkedList = NULL;
      
 	int textLength = 0;
 	int n_gram;
 	int random;
-	int menu;
-     
+	// int menu;
+	node *linkedList;
+    char *filename;
+    filename = (char*)malloc(sizeof(char));
+    filename="x";
 	aboutUs();
 	
 	printf("SELAMAT DATANG DI N-PROGRAM\n");
 	printf("Program memiiliki tiga menu, yaitu input text eksternal, cetak kata-kata random dari n-gram, dan exit\n");
 
-	menu = menux();
-	while(menu != 3){
-		if (menu == 1){//input file eksternal
+	while(strcmp(filename,"ex") != 0){
+		linkedList = (node*)malloc(sizeof(char));
+		linkedList = NULL;
+
+		while(textLength == 0){
 			printf("Masukkan nama file : ");
-			char* filename = (char*)malloc(sizeof(char));
+			filename = (char*)malloc(sizeof(char));
 			scanf("%s", filename);
 			textLength = fileHandling(filename, &linkedList);
-			free(filename);
-			printf("%d\n",textLength);
-			menu = menux();
-			}
-		else if(menu == 2){//mencetak kata-kata dari key n_gram
-			if(textLength == 0){
+
+			if (textLength == 0)
 				printf("File eksternal belum diinput, silakan input terlebih dahulu!\n");
-				menu = 1;
-				}
-			else{
-				printf("Masukkan banyaknya n pada n-gram: ");
-				scanf("%d", &n_gram);
-				while(n_gram < 2){
-					printf("n harus bernilai sama dengan dua atau lebih\n");
-					scanf("%d", &n_gram);}
-				printf("Masukkan jumlah kata random yang akan dicetak: ");
-				scanf("%d", &random);
-				generateText(linkedList, textLength, random, n_gram);
-				printf("\nyay!");
-				menu = menux();
-				}
-			}
-		else if(menu == 3){//keluar
-			printf("Terima kasih telah menggunakan program kami!\n");
-			freeList(linkedList);
-			exit(1);
-			}
-		else{//pilihan salah
-			printf("Masukkan input salah! Silakan input kembali");
-			menu = menux();
-			}
+			free(filename);
 		}
+		printf("%d\n",textLength);
+		printf("Masukkan banyaknya n pada n-gram: ");
+		scanf("%d", &n_gram);
+			while(n_gram < 2){
+				printf("n harus bernilai sama dengan dua atau lebih\n");
+				scanf("%d", &n_gram);
+			}
+		system("clear");
+		printf("Masukkan jumlah kata random yang akan dicetak: ");
+		scanf("%d", &random);
+		while(random != 0){
+			generateText(linkedList, textLength, random, n_gram);
+			printf("\nyay!\n");
+			printf("Masukkan jumlah kata random yang akan dicetak: ");
+			scanf("%d", &random);
+		}				
+		freeList(linkedList);		
+	}
+	printf("\n\t\t---Terima kasih telah menggunakan program kami!---\n");
 	return(0);
- }
+}
